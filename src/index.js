@@ -24,9 +24,13 @@ const httpLink = new HttpLink({
   },
 });
 
+const initialState = {
+  selectedRepositoryIds: ['MDEwOlJlcG9zaXRvcnk2MzM1MjkwNw=='],
+};
+
 const stateLink = withClientState({
   cache,
-  defaults: {},
+  defaults: initialState,
   resolvers: {},
 });
 

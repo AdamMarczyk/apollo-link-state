@@ -46,31 +46,12 @@ const App = () => (
   </Query>
 );
 
-class Repositories extends React.Component {
-  state = {
-    selectedRepositoryIds: [],
-  };
-
-  toggleSelectRepository = (id, isSelected) => {
-    let { selectedRepositoryIds } = this.state;
-
-    selectedRepositoryIds = isSelected
-      ? selectedRepositoryIds.filter(itemId => itemId !== id)
-      : selectedRepositoryIds.concat(id);
-
-    this.setState({ selectedRepositoryIds });
-  };
-
-  render() {
-    return (
-      <RepositoryList
-        repositories={this.props.repositories}
-        selectedRepositoryIds={this.state.selectedRepositoryIds}
-        toggleSelectRepository={this.toggleSelectRepository}
-      />
-    );
-  }
-}
+const Repositories = ({ repositories }) => (
+  <RepositoryList
+    repositories={repositories}
+    selectedRepositoryIds={selectedRepositoryIds}
+  />
+);
 
 const RepositoryList = ({
   repositories,
