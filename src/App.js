@@ -21,7 +21,7 @@ const GET_REPOSITORIES_OF_ORGANIZATION = gql`
   }
 `;
 
-const GET_SELECTED_REPOSITORIES = gql`
+export const GET_SELECTED_REPOSITORIES = gql`
   query {
     selectedRepositoryIds @client
   }

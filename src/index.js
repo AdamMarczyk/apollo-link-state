@@ -7,7 +7,7 @@ import { HttpLink } from 'apollo-link-http';
 import { withClientState } from 'apollo-link-state';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
-import App from './App';
+import App, { GET_SELECTED_REPOSITORIES } from './App';
 
 import registerServiceWorker from './registerServiceWorker';
 
@@ -29,7 +29,15 @@ const initialState = {
 };
 
 const toggleSelectRepository = (_, { id, isSelected }, { cache }) => {
-  /*...*/
+  let { selectedRepositoryIds } = cache.readQuery({
+    query: GET_SELECTED_REPOSITORIES,
+  });
+
+  selectedRepositoryIds = isSelected
+    ? selectedRepositoryIds.filter(itemId => itemId !== id)
+    : selectedRepositoryIds.concat(id);
+
+  /* ... */
 };
 
 
