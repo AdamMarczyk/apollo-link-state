@@ -21,6 +21,12 @@ const GET_REPOSITORIES_OF_ORGANIZATION = gql`
   }
 `;
 
+const GET_SELECTED_REPOSITORIES = gql`
+  query {
+    selectedRepositoryIds @client
+  }
+`;
+
 const STAR_REPOSITORY = gql`
   mutation($id: ID!) {
     addStar(input: { starrableId: $id }) {
@@ -47,10 +53,14 @@ const App = () => (
 );
 
 const Repositories = ({ repositories }) => (
-  <RepositoryList
-    repositories={repositories}
-    selectedRepositoryIds={selectedRepositoryIds}
-  />
+  <Query query={GET_SELECTED_REPOSITORIES}>
+    {({ data: { selectedRepositoryIds } }) => (
+      <RepositoryList
+        repositories={repositories}
+        selectedRepositoryIds={selectedRepositoryIds}
+      />
+    )}
+  </Query>
 );
 
 const RepositoryList = ({
