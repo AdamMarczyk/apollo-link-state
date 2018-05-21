@@ -40,11 +40,31 @@ const App = () => (
       }
 
       return (
-        <RepositoryList repositories={organization.repositories} />
+        <Repositories repositories={organization.repositories} />
       );
     }}
   </Query>
 );
+
+class Repositories extends React.Component {
+  state = {
+    selectedRepositoryIds: [],
+  };
+
+  toggleSelectRepository = (id, isSelected) => {
+    ...
+  };
+
+  render() {
+    return (
+      <RepositoryList
+        repositories={this.props.repositories}
+        selectedRepositoryIds={this.state.selectedRepositoryIds}
+        toggleSelectRepository={this.toggleSelectRepository}
+      />
+    );
+  }
+}
 
 const RepositoryList = ({ repositories }) => (
   <ul>
