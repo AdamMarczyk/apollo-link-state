@@ -52,7 +52,13 @@ class Repositories extends React.Component {
   };
 
   toggleSelectRepository = (id, isSelected) => {
-    ...
+    let { selectedRepositoryIds } = this.state;
+
+    selectedRepositoryIds = isSelected
+      ? selectedRepositoryIds.filter(itemId => itemId !== id)
+      : selectedRepositoryIds.concat(id);
+
+    this.setState({ selectedRepositoryIds });
   };
 
   render() {
@@ -66,18 +72,28 @@ class Repositories extends React.Component {
   }
 }
 
-const RepositoryList = ({ repositories }) => (
-  <ul>
-    {repositories.edges.map(({ node }) => {
-      return (
-        <li key={node.id}>
-          <a href={node.url}>{node.name}</a>{' '}
-          {!node.viewerHasStarred && <Star id={node.id} />}
-        </li>
-      );
-    })}
-  </ul>
-);
+const RepositoryList = ({
+  repositories,
+  selectedRepositoryIds,
+  toggleSelectRepository,
+}) => (
+    <ul>
+      {repositories.edges.map(({ node }) => {
+        const isSelected = selectedRepositoryIds.includes(node.id);
+        return (
+          <li key={node.id}>
+            <Select
+              id={node.id}
+              isSelected={isSelected}
+              toggleSelectRepository={toggleSelectRepository}
+            />{' '}
+            <a href={node.url}>{node.name}</a>{' '}
+            {!node.viewerHasStarred && <Star id={node.id} />}
+          </li>
+        );
+      })}
+    </ul>
+  );
 
 const Star = ({ id }) => (
   <Mutation mutation={STAR_REPOSITORY} variables={{ id }}>
@@ -87,6 +103,15 @@ const Star = ({ id }) => (
       </button>
     )}
   </Mutation>
+);
+
+const Select = ({ id, isSelected, toggleSelectRepository }) => (
+  <button
+    type="button"
+    onClick={() => toggleSelectRepository(id, isSelected)}
+  >
+    {isSelected ? 'Unselect' : 'Select'}
+  </button>
 );
 
 
