@@ -37,7 +37,12 @@ const toggleSelectRepository = (_, { id, isSelected }, { cache }) => {
     ? selectedRepositoryIds.filter(itemId => itemId !== id)
     : selectedRepositoryIds.concat(id);
 
-  /* ... */
+  cache.writeQuery({
+    query: GET_SELECTED_REPOSITORIES,
+    data: { selectedRepositoryIds },
+  });
+
+  return null;
 };
 
 
