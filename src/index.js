@@ -28,10 +28,19 @@ const initialState = {
   selectedRepositoryIds: ['MDEwOlJlcG9zaXRvcnk2MzM1MjkwNw=='],
 };
 
+const toggleSelectRepository = (_, { id, isSelected }, { cache }) => {
+  /*...*/
+};
+
+
 const stateLink = withClientState({
   cache,
   defaults: initialState,
-  resolvers: {},
+  resolvers: {
+    Mutation: {
+      toggleSelectRepository,
+    },
+  },
 });
 
 const link = ApolloLink.from([stateLink, httpLink]);
