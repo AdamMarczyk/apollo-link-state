@@ -38,6 +38,12 @@ const STAR_REPOSITORY = gql`
   }
 `;
 
+const SELECT_REPOSITORY = gql`
+  mutation($id: ID!, $isSelected: Boolean!) {
+    toggleSelectRepository(id: $id, isSelected: $isSelected) @client
+  }
+`;
+
 const App = () => (
   <Query query={GET_REPOSITORIES_OF_ORGANIZATION}>
     {({ data: { organization }, loading }) => {
@@ -96,9 +102,16 @@ const Star = ({ id }) => (
 );
 
 const Select = ({ id, isSelected }) => (
-  <button type="button" onClick={() => { }}>
-    {isSelected ? 'Unselect' : 'Select'}
-  </button>
+  <Mutation
+    mutation={SELECT_REPOSITORY}
+    variables={{ id, isSelected }}
+  >
+    {toggleSelectRepository => (
+      <button type="button" onClick={toggleSelectRepository}>
+        {isSelected ? 'Unselect' : 'Select'}
+      </button>
+    )}
+  </Mutation>
 );
 
 export default App;
