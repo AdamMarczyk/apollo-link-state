@@ -1,6 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 
 import './App.css';
 
@@ -16,6 +16,17 @@ const GET_REPOSITORIES_OF_ORGANIZATION = gql`
             viewerHasStarred
           }
         }
+      }
+    }
+  }
+`;
+
+const STAR_REPOSITORY = gql`
+  mutation($id: ID!) {
+    addStar(input: { starrableId: $id }) {
+      starrable {
+        id
+        viewerHasStarred
       }
     }
   }
@@ -40,11 +51,23 @@ const RepositoryList = ({ repositories }) => (
     {repositories.edges.map(({ node }) => {
       return (
         <li key={node.id}>
-          <a href={node.url}>{node.name}</a>
+          <a href={node.url}>{node.name}</a>{' '}
+          {!node.viewerHasStarred && <Star id={node.id} />}
         </li>
       );
     })}
   </ul>
 );
+
+const Star = ({ id }) => (
+  <Mutation mutation={STAR_REPOSITORY} variables={{ id }}>
+    {starRepository => (
+      <button type="button" onClick={starRepository}>
+        Star
+      </button>
+    )}
+  </Mutation>
+);
+
 
 export default App;
