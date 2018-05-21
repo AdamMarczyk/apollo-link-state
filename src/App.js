@@ -63,35 +63,27 @@ const Repositories = ({ repositories }) => (
   </Query>
 );
 
-const RepositoryList = ({
-  repositories,
-  selectedRepositoryIds,
-  toggleSelectRepository,
-}) => (
-    <ul>
-      {repositories.edges.map(({ node }) => {
+const RepositoryList = ({ repositories, selectedRepositoryIds }) => (
+  <ul>
+    {repositories.edges.map(({ node }) => {
 
-        const isSelected = selectedRepositoryIds.includes(node.id);
-        const rowClassName = ['row'];
+      const isSelected = selectedRepositoryIds.includes(node.id);
+      const rowClassName = ['row'];
 
-        if (isSelected) {
-          rowClassName.push('row_selected');
-        }
+      if (isSelected) {
+        rowClassName.push('row_selected');
+      }
 
-        return (
-          <li className={rowClassName.join(' ')} key={node.id}>
-            <Select
-              id={node.id}
-              isSelected={isSelected}
-              toggleSelectRepository={toggleSelectRepository}
-            />{' '}
-            <a href={node.url}>{node.name}</a>{' '}
-            {!node.viewerHasStarred && <Star id={node.id} />}
-          </li>
-        );
-      })}
-    </ul>
-  );
+      return (
+        <li className={rowClassName.join(' ')} key={node.id}>
+          <Select id={node.id} isSelected={isSelected} />{' '}
+          <a href={node.url}>{node.name}</a>{' '}
+          {!node.viewerHasStarred && <Star id={node.id} />}
+        </li>
+      );
+    })}
+  </ul>
+);
 
 const Star = ({ id }) => (
   <Mutation mutation={STAR_REPOSITORY} variables={{ id }}>
@@ -103,14 +95,10 @@ const Star = ({ id }) => (
   </Mutation>
 );
 
-const Select = ({ id, isSelected, toggleSelectRepository }) => (
-  <button
-    type="button"
-    onClick={() => toggleSelectRepository(id, isSelected)}
-  >
+const Select = ({ id, isSelected }) => (
+  <button type="button" onClick={() => { }}>
     {isSelected ? 'Unselect' : 'Select'}
   </button>
 );
-
 
 export default App;
