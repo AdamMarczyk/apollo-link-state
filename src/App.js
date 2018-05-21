@@ -79,9 +79,16 @@ const RepositoryList = ({
 }) => (
     <ul>
       {repositories.edges.map(({ node }) => {
+
         const isSelected = selectedRepositoryIds.includes(node.id);
+        const rowClassName = ['row'];
+
+        if (isSelected) {
+          rowClassName.push('row_selected');
+        }
+
         return (
-          <li key={node.id}>
+          <li className={rowClassName.join(' ')} key={node.id}>
             <Select
               id={node.id}
               isSelected={isSelected}
